@@ -77,6 +77,18 @@ void testQuery(const restcpp::HTTPRequest& req, restcpp::HTTPResponse& res)
     res.setBodyHTML(ss.str());
 }
 
+/**
+ * @brief Post json
+ * 
+ * @param req 
+ * @param res
+ * @example curl --header "Content-Type: application/json"  --request POST --data '{"username":"xyz","password":"xyz"}'  http://localhost:6005/jsonPostTest/ 
+ */
+void testJsonPost(const restcpp::HTTPRequest& req, restcpp::HTTPResponse& res)
+{
+    res.setStatus(202);
+    res.setBodyJSON(req.getjsonBody().dump());
+}
 
 void testFileUpload(const restcpp::HTTPRequest& req, restcpp::HTTPResponse& res)
 {

@@ -13,6 +13,7 @@ int main()
           .get("/cookietest/", testSetCookie)
           .get("/sessiontest/",  sessionTest)
           .get("/querytest/",  testQuery)
+          .post("/jsonPostTest/",  testJsonPost)
           .post("/fileupload/",  testFileUpload)
           .get("/fileform/",  testFileUploadForm)
           .get("/redirect/", testRedirect);

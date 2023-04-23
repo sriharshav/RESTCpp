@@ -309,7 +309,13 @@ namespace restcpp
                     {
                         std::string body = data.substr(data.find("\r\n\r\n") + 4);
                         m_rawBodyData = new byte[body.length()];
-                        memccpy(m_rawBodyData, body.c_str(), 0, body.length());
+                        memccpy(m_rawBodyData, body.c_str(), 0, body.length());                 
+                        
+                        // parse json encoding
+                        if(m_headers["content-type"].find("application/json") != std::string::npos)
+                        {
+                            m_jsonBody = nlohmann::json::parse(m_rawBodyData);
+                        }
                     }
                     else
                     {
@@ -330,6 +336,12 @@ namespace restcpp
 
                         m_rawBodyData = new byte[ans.length()];
                         memcpy(m_rawBodyData, ans.c_str(), sizeof(byte) * ans.length());
+
+                        // parse json encoding                        
+                        if(m_headers["content-type"].find("application/json") != std::string::npos)
+                        {
+                            m_jsonBody = nlohmann::json::parse(m_rawBodyData);
+                        }
                     }
                 }
             }

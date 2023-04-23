@@ -13,6 +13,9 @@
 #include "Router.h"
 #include "Session.h"
 
+// libraries
+#include <nlohmann/json.hpp>
+
 namespace restcpp
 {
 
@@ -41,6 +44,7 @@ namespace restcpp
             const std::string getQuery(const std::string& query) const { if(m_queries.count(query)) return m_queries.at(query);  else return "";}
             const std::string getParam(const std::string& param) const { if(m_pathParams.count(param)) return m_pathParams.at(param); else return ""; }
             const std::vector<FormData> getFormData() const { return m_formData; }
+            const nlohmann::json getjsonBody() const { return m_jsonBody; }
             const std::string getCookie (const std::string& cookie) const { if(m_cookies.count(cookie)) return m_cookies.at(cookie); else return ""; }
             const std::string& getSessionID() const { return m_sessionID; }
             void setMethod(const METHOD& method) { m_method = method; } 
@@ -67,6 +71,7 @@ namespace restcpp
             std::unordered_map<std::string,std::string> m_pathParams;
             std::unordered_map<std::string,std::string> m_cookies;
             byte* m_rawBodyData;
+            nlohmann::json m_jsonBody;
             std::string m_sessionID;
     };
 }
