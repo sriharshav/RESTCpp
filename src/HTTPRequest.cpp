@@ -308,9 +308,10 @@ namespace restcpp
                     if(m_headers["transfer-encoding"] != "chunked")
                     {
                         std::string body = data.substr(data.find("\r\n\r\n") + 4);
-                        m_rawBodyData = new byte[body.length()];
-                        memccpy(m_rawBodyData, body.c_str(), 0, body.length());                 
-                        
+                        m_rawBodyData = new byte[body.length()+1];
+                        memset(m_rawBodyData, 0, body.length()+1);
+                        memccpy(m_rawBodyData, body.c_str(), 0, body.length());  
+                        std::unique_ptr<byte*> pRawBodyData = std::make_unique<byte*>(m_rawBodyData);
                         // parse json encoding
                         if(m_headers["content-type"].find("application/json") != std::string::npos)
                         {
@@ -334,9 +335,10 @@ namespace restcpp
                             isEven = !isEven;
                         }
 
-                        m_rawBodyData = new byte[ans.length()];
+                        m_rawBodyData = new byte[ans.length()+1];
+                        memset(m_rawBodyData, 0, ans.length()+1);
                         memcpy(m_rawBodyData, ans.c_str(), sizeof(byte) * ans.length());
-
+                        std::unique_ptr<byte*> pRawBodyData = std::make_unique<byte*>(m_rawBodyData);
                         // parse json encoding                        
                         if(m_headers["content-type"].find("application/json") != std::string::npos)
                         {
